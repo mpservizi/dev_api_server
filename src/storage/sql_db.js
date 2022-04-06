@@ -71,7 +71,7 @@ function openConnection(dbPath) {
       return null;
     }
     //In caso di driver a 64 bit passare true come secondo parametro
-    let connection = ADODB.open(conStr, true);
+    let connection = ADODB.open(conStr, false);
     return connection;
   } catch (error) {
     console.log(error);

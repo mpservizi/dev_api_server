@@ -10,7 +10,7 @@ const path = require('path');
 function getConfig(dev = false) {
   //Carico file in base al input
   const ROOT_PATH = path.join(__dirname, '../');
-  const envFile = dev ? ROOT_PATH + '.dev.env' : ROOT_PATH + '.env';
+  const envFile = dev ? ROOT_PATH + '.env.dev' : ROOT_PATH + '.env';
 
   const result = dotenv.config({ path: envFile });
   if (result.error) {
