@@ -8,7 +8,9 @@ class MyModel {
   constructor() {
     //istanza della classe MyDb
     this.db = Repo.getDb();
+    //Oggetto usato nel app
     this.appModel = {};
+    //Campi uguali ai titoli del database
     this.dbModel = {};
   }
   /**
@@ -27,7 +29,8 @@ class MyModel {
 
   /**
    * Salva i dati nel database
-   * @param {String} sql
+   * @param {String} sql : sql querry
+   * @param {String} scalar : sql querry da eseguire dopo query sql
    */
   async save(sql, scalar) {
     let dati = await this.db.execute(sql, scalar);
@@ -49,7 +52,8 @@ class MyModel {
   }
   /**
    * Aggiorna i dati nel database
-   * @param {String} sql
+   * @param {String} sql : sql querry
+   * @param {String} scalar : sql querry da eseguire dopo query sql
    */
   async update(sql, scalar) {
     let dati = await this.db.execute(sql, scalar);
@@ -57,7 +61,8 @@ class MyModel {
   }
   /**
    * Elimina i dati dal database
-   * @param {String} sql
+   * @param {String} sql : sql querry
+   * @param {String} scalar : sql querry da eseguire dopo query sql
    */
   async delete(sql, scalar) {
     let dati = await this.db.execute(sql, scalar);
