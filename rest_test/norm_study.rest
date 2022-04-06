@@ -1,0 +1,56 @@
+@baseUrl = http://localhost:3000/api
+@route = /norme_study/1
+@testUrl = {{baseUrl}}{{route}}
+
+//Get request
+GET {{testUrl}} HTTP/1.1
+
+###
+//Get by id
+GET {{testUrl}}/6069b22433f72304c8a25b50
+
+###
+//Post request
+POST {{testUrl}} HTTP/1.1
+content-type: application/json
+
+{
+  "id_risorsa": "6069a843b961d224101865e3",
+  "id_richiesta": "6067644c1b430e1a64fb3938",
+  "start_date": "2021-03-03T23:00:00.000+00:00",
+  "end_date": "2021-03-03T23:00:00.000+00:00",
+  "tecnico": "Malkit",
+  "descrizione": "21-0129",
+  "stato": 4,
+  "idMacchina": 10,
+  "idProva": "6069ae2b36a7aa2f140da390"
+}
+
+###
+//Update request sostituzione completa
+PUT  {{testUrl}} HTTP/1.1
+content-type: application/json
+
+{
+    "_id": "6069b22433f72304c8a25b50",
+    "idMacchina": 4
+}
+
+###
+//Update request aggiornamento alcuni campi
+PATCH   {{testUrl}} HTTP/1.1
+content-type: application/json
+
+{
+    "_id": "6069b22433f72304c8a25b50",
+    "idMacchina": 4
+}
+
+###
+//Delete request
+DELETE   {{testUrl}} HTTP/1.1
+content-type: application/json
+
+{
+    "_id": "6069b22433f72304c8a25b50"
+}
