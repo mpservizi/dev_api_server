@@ -1,5 +1,6 @@
 /**
  * Entry point per inizzializzare tutte le app
+ * Qui vengono caricati tutti i moduli specificati nel file moduli.js
  */
 
 const MyDb = require('@models/MyDb');
@@ -38,7 +39,7 @@ async function initModules(app, db) {
  * @param {MyModulo} mod : parametri del modulo da caricare
  */
 async function initModulo(app, mod) {
-  //Importo il file
+  //Importo entry file dalla cartella del modulo
   const modulo = require(`./${mod.nome}/index`);
   //Chiamo il metodo per inizzializzare il modulo
   //Il modulo imposta il router sul oggetto passato
