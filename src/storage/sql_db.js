@@ -56,7 +56,7 @@ module.exports = SqlDb;
 
 async function openConnection(dbPath) {
   // const provider = "Microsoft.Jet.OLEDB.4.0"; //.mdb
-  const provider = 'Microsoft.ACE.OLEDB.121.0'; //.accdb office 2010
+  const provider = 'Microsoft.ACE.OLEDB.12.0'; //.accdb office 2010
 
   let conStr =
     'Provider=' +
