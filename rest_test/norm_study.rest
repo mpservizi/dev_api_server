@@ -1,7 +1,12 @@
 @baseUrl = http://localhost:3000/api
-@route = /norme_study/1
-@testUrl = {{baseUrl}}{{route}}
+@app_route = /norme_study
+@ping_route = {{baseUrl}}{{app_route}}/ping
+@testUrl = {{baseUrl}}{{app_route}}/1
 
+//Ping route
+GET {{ping_route}} HTTP/1.1
+
+###
 //Get request
 GET {{testUrl}} HTTP/1.1
 
