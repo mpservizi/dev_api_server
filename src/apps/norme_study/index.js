@@ -4,7 +4,7 @@
  */
 
 const MyModulo = require('@models/MyModulo');
-const router = require('./controller.js');
+const router = require('./router');
 
 /**
  * Inizializza i routes del modulo

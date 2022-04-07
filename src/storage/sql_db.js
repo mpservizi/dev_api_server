@@ -16,8 +16,8 @@ class SqlDb extends MyDb {
     this._config = dbConfig;
   }
 
-  initDb() {
-    let cnn = openConnection(this._config.path);
+  async initDb() {
+    let cnn = await openConnection(this._config.path);
     if (cnn) {
       this._cnn = cnn;
       return true;
@@ -54,9 +54,9 @@ module.exports = SqlDb;
  * @returns {Object} connessione al database. Null in caso di errore
  */
 
-function openConnection(dbPath) {
+async function openConnection(dbPath) {
   // const provider = "Microsoft.Jet.OLEDB.4.0"; //.mdb
-  const provider = 'Microsoft.ACE.OLEDB.12.0'; //.accdb office 2010
+  const provider = 'Microsoft.ACE.OLEDB.121.0'; //.accdb office 2010
 
   let conStr =
     'Provider=' +
@@ -70,11 +70,68 @@ function openConnection(dbPath) {
       console.log('Percorso database non valido : ' + dbPath);
       return null;
     }
-    //In caso di driver a 64 bit passare true come secondo parametro
-    let connection = ADODB.open(conStr, false);
+
+    let connection = await verificaDriver(conStr);
+    if (!connection) {
+      console.log('Errore collegamento al db.Connection string = ');
+      console.log(conStr);
+    }
     return connection;
   } catch (error) {
+    console.log('Errore nel openConnection al database');
     console.log(error);
     return null;
   }
+}
+
+/**
+ * Crea il driver per connetersi al database
+ * @param {String} conStr
+ * @returns {Object} driver oppure null
+ */
+async function verificaDriver(conStr) {
+  //Con alcune verizioni di office funziona 32 bit con altre 64bit
+  //Provo entrambe le versioni e verifico se una delle 2 funziona
+  let is64Bit = false;
+  let cnn = ADODB.open(conStr, is64Bit);
+
+  //verifico la connessione
+  let esito = await checkConnection(cnn);
+  if (esito) {
+    return cnn;
+  }
+  //Se non ha funzionato la precedente configurazione, cambio architerruta driver
+  is64Bit = !is64Bit;
+  cnn = ADODB.open(conStr, is64Bit);
+  //verifico la connessione, restituisco null in caso d'errore
+  esito = await checkConnection(cnn);
+  if (esito) {
+    return cnn;
+  }
+  return null;
+}
+
+/**
+ * Indica se il diriver riesce a connettersi al database
+ * @param {Object} cnn :  ADODB connection
+ * @returns
+ */
+async function checkConnection(cnn) {
+  //Provo eseguire una query di selezione su una tabella finta
+  const FAKE_TABLE = 'NOMI_XXXXXX';
+  let test_sql = `SELECT id from ${FAKE_TABLE}`;
+  let result = false;
+  try {
+    let dati = await cnn.query(test_sql);
+    //Se la tabella esiste e ho estratto i dati
+    result = true;
+  } catch (error) {
+    //Se il testo d'errore contiene nome della tabella
+    //Significa che il driver funziona, errore indica che la tabella non esiste
+    if (error.process.message.includes(FAKE_TABLE)) {
+      result = true;
+    }
+    //In altri casi d'errore il driver non riesce a connetersi al db
+  }
+  return result;
 }

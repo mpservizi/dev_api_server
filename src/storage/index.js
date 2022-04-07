@@ -25,12 +25,13 @@ async function initRepo(config) {
   //     result.data = "Sql database pronto";
   //   }
   database = new SqlDb(config);
-  if (database.initDb()) {
+  let esito = await database.initDb();
+  if (esito) {
     result.data = 'Sql database pronto : ' + database.getPath();
   } else {
     result.err = 'Errore connessione al database';
   }
-  return Promise.resolve(result);
+  return result;
 }
 
 module.exports = {

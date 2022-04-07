@@ -92,7 +92,7 @@ async function avvio() {
   if (!result.err) {
     mLog(result.data);
   } else {
-    mLog('errore avvio server');
+    mLog('Errore inizializzazione applicazione. Err:');
     mLog(result.err);
   }
 }
