@@ -37,7 +37,11 @@ class RequisitoNormativo extends MyModel {
   }
 
   toDbModel(payload) {
-    let result = payload;
+    let result = {
+      ID: payload.id,
+      Nome: payload.nome,
+      Anni: payload.anni,
+    };
 
     return result;
   }
@@ -45,9 +49,21 @@ class RequisitoNormativo extends MyModel {
     // let result = {
     //   data: fakeLista(3),
     // };
-    let sql = `SELECT * FROM nomi`;
+    let sql = this.qrBuilder.select.from('nomi').select('Nome').build();
     let result = await this.load(sql);
     return Promise.resolve(result);
+  }
+  async addRequisito(payload) {
+    let sql = this.qrBuilder.insert
+      .into('nomi')
+      .set({ Nome: payload.nome, Anni: payload.anni })
+      .build();
+
+    // console.log(sql);
+    let newId = await super.save(sql);
+    let result = { ...payload };
+    result['id'] = newId;
+    return result;
   }
 }
 

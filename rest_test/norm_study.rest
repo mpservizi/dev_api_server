@@ -1,14 +1,14 @@
 @baseUrl = http://localhost:3000/api
 @app_route = /norme_study
 @ping_route = {{baseUrl}}{{app_route}}/ping
-@testUrl = {{baseUrl}}{{app_route}}/1
+@testUrl = {{baseUrl}}{{app_route}}/
 
 //Ping route
 GET {{ping_route}} HTTP/1.1
 
 ###
 //Get request
-GET {{testUrl}} HTTP/1.1
+GET {{testUrl}}/1 HTTP/1.1
 
 ###
 //Get by id
@@ -20,15 +20,8 @@ POST {{testUrl}} HTTP/1.1
 content-type: application/json
 
 {
-  "id_risorsa": "6069a843b961d224101865e3",
-  "id_richiesta": "6067644c1b430e1a64fb3938",
-  "start_date": "2021-03-03T23:00:00.000+00:00",
-  "end_date": "2021-03-03T23:00:00.000+00:00",
-  "tecnico": "Malkit",
-  "descrizione": "21-0129",
-  "stato": 4,
-  "idMacchina": 10,
-  "idProva": "6069ae2b36a7aa2f140da390"
+  "nome": "Tester",
+  "anni": 10
 }
 
 ###

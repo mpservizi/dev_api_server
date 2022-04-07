@@ -11,6 +11,10 @@ class ServiceModulo extends MyService {
     let result = await this.model.requisitiNorma(idNorma);
     return result;
   }
+  async addRequisito(payload) {
+    let result = await this.model.addRequisito(payload);
+    return result;
+  }
 }
 
 module.exports = new ServiceModulo();

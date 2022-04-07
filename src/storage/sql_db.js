@@ -28,20 +28,22 @@ class SqlDb extends MyDb {
     return this._config.path;
   }
 
-  async select(sql) {
-    let result = await this._cnn.query(sql);
+  /**
+   * Query selezione
+   * @param {Object} payload
+   * @returns
+   */
+  async query(payload) {
+    let result = await this._cnn.query(payload.sql);
     return result;
   }
-  async insert(sql, scalar) {
-    let result = await this._cnn.execute(sql, scalar);
-    return result;
-  }
-  async update(sql, scalar) {
-    let result = await this._cnn.execute(sql, scalar);
-    return result;
-  }
-  async delete(sql, scalar) {
-    let result = await this._cnn.execute(sql, scalar);
+  /**
+   * Query azione, insert,update,delete
+   * @param {Object} payload
+   * @returns
+   */
+  async execute(payload) {
+    let result = await this._cnn.execute(payload.sql, payload.scalar);
     return result;
   }
 }

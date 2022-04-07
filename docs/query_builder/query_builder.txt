@@ -1,0 +1,6 @@
+https://www.npmjs.com/package/sql-query
+
+var sql = require('sql-query'),
+  sqlQuery = sql.Query(); //for dialect: sql.Query('postgresql');
+
+var sqlCreate = sqlQuery.create();

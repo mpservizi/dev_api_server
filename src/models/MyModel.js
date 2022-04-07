@@ -3,11 +3,20 @@
  * Server per passare i dati tra il driver database e service
  */
 const Repo = require('@storage/index');
-
+const sql = require('sql-query');
+const builder = sql.Query();
 class MyModel {
   constructor() {
     //istanza della classe MyDb
     this.db = Repo.getDb();
+    //query builder
+    this.qrBuilder = {
+      select: builder.select(),
+      insert: builder.insert(),
+      update: builder.update(),
+      update: builder.remove(),
+      create: builder.create(),
+    };
     //Oggetto usato nel app
     this.appModel = {};
     //Campi uguali ai titoli del database
@@ -31,9 +40,19 @@ class MyModel {
    * Salva i dati nel database
    * @param {String} sql : sql querry
    * @param {String} scalar : sql querry da eseguire dopo query sql
+   * @returns {*} : id new nuovo elemento aggiunto
    */
   async save(sql, scalar) {
-    let dati = await this.db.execute(sql, scalar);
+    let myScalar = scalar || 'SELECT @@Identity AS id';
+    let payload = {
+      sql: sql,
+      scalar: myScalar,
+    };
+    let dati = await this.db.execute(payload);
+    //Se il risultato è un array restituisco id dal primo valore
+    if (dati.length) {
+      return dati[0].id;
+    }
     return dati;
   }
   /**

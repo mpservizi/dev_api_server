@@ -9,6 +9,11 @@ class Controller extends MyController {
     let dati = await Service.listaRequirementsNorma(1);
     res.send(dati);
   }
+  async newRequisito(req, res, next) {
+    let payload = req.body;
+    let dati = await Service.addRequisito(payload);
+    res.send(dati);
+  }
   prova(req, res, next) {
     res.send('Route prova');
   }
