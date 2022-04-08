@@ -11,10 +11,6 @@ GET {{ping_route}} HTTP/1.1
 GET {{testUrl}}/1 HTTP/1.1
 
 ###
-//Get by id
-GET {{testUrl}}/6069b22433f72304c8a25b50
-
-###
 //Post request
 POST {{testUrl}} HTTP/1.1
 content-type: application/json
@@ -22,6 +18,15 @@ content-type: application/json
 {
   "nome": "Pojo tester",
   "anni": 10
+}
+
+###
+//Prova delete
+POST {{testUrl}}/d HTTP/1.1
+content-type: application/json
+
+{
+  "id": 43
 }
 
 ###

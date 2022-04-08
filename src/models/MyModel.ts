@@ -5,11 +5,11 @@
 import Repo from '../storage';
 import { DbRisposta_I } from './interfacce/db_dto';
 import { MyDb } from './MyDb';
-import { MyQueryBuilder } from './MyQueryBuilder';
+import builder from './MyQueryBuilder';
 
 export class MyModel {
   static db: MyDb = Repo.getDb();
-  static qrBuilder: MyQueryBuilder = new MyQueryBuilder();
+  static qrBuilder: any = builder;
   //Oggetto con i nomi deicampi della tabella
   obj_tabella: any = {
     tabella: 'tab_xx',
@@ -124,7 +124,7 @@ export class MyModel {
   async delete(sql: string, scalar?: string): Promise<DbRisposta_I> {
     const payload = {
       sql: sql,
-      scalar: scalar || 'SELECT @@Identity AS id',
+      scalar: scalar || '',
     };
     const dati = await MyModel.db.execute(payload);
     return dati;
