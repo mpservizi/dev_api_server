@@ -18,17 +18,8 @@ export const MODEL_OBJ = {
 export class RequisitoNormativo extends MyModel {
   constructor() {
     super();
-    this.obj_tabella = {
-      tabella: 'nomi',
-      id: 'ID',
-      nome: 'Nome',
-      anni: 'Anni',
-    };
-    this.obj_service = {
-      id: 'id',
-      nome: 'nome',
-      anni: 'anni',
-    };
+    this.obj_tabella = TABELLA_DB;
+    this.obj_service = MODEL_OBJ;
   }
   /**
    * Lista dei requisiti presenti nel db per id della norma
@@ -51,18 +42,18 @@ export class RequisitoNormativo extends MyModel {
    * @returns
    */
   async addRequisito(payload: any) {
+    //Converto i campi del oggetto service in campi tabella
+    let pojo = this.toDbModel(payload);
     let sql = MyModel.qrBuilder.insert
       .into(TABELLA_DB.tabella)
-      .set({
-        [TABELLA_DB.nome]: payload[MODEL_OBJ.nome],
-        [TABELLA_DB.anni]: payload[MODEL_OBJ.anni],
-      })
+      .set(pojo)
       .build();
 
     // console.log(sql);
     let newId = await super.save(sql);
     let result = { ...payload };
-    result['id'] = newId;
+    // @ts-ignore
+    result[MODEL_OBJ.id] = parseInt(newId);
     return result;
   }
 }

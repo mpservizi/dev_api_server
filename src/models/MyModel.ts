@@ -25,7 +25,7 @@ export class MyModel {
 
   /**
    * Converte oggetto estratto dal database in oggetto da passare al service
-   * Viene eseguita la conversione basando sul nome delle chiavi del oggetto TABELLA_DB
+   * Viene eseguita la conversione basando sul nome delle chiavi del oggetto obj_tabella e obj_service
    * @param dbModel
    * @returns
    */
@@ -44,6 +44,24 @@ export class MyModel {
     return result;
   }
 
+  /**
+   * Converte i campi dal service al db model
+   * @param serviceModel : Oggetto con in campi uguale al obj_service
+   */
+  toDbModel(serviceModel: any) {
+    let result: any = {};
+    let tab_db = this.obj_tabella;
+    let keys = Object.keys(tab_db);
+
+    keys.forEach((key: string) => {
+      // @ts-ignore
+      let key_db: string = tab_db[key];
+      if (serviceModel[key]) {
+        result[key_db] = serviceModel[key];
+      }
+    });
+    return result;
+  }
   /**
    * Carica i dati dal database
    * @param {String} sql
@@ -72,13 +90,17 @@ export class MyModel {
    * @param {String} scalar : sql querry da eseguire dopo query sql
    * @returns {*} : id new nuovo elemento aggiunto
    */
-  async save(sql: string, scalar?: string): Promise<DbRisposta_I> {
+  async save(sql: string, scalar?: string): Promise<string | number> {
     const payload = {
       sql: sql,
       scalar: scalar || 'SELECT @@Identity AS id',
     };
     const dati = await MyModel.db.execute(payload);
-    return dati;
+    //Se ci sono dati resituisco id generato
+    if (dati.data) {
+      return dati.data[0].id;
+    }
+    return -1;
   }
 
   /**
