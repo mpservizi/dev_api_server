@@ -11,4 +11,4 @@ import { MyModulo } from '../models/MyModulo';
   ),
  */
 
-export const LISTA_MODULI = [new MyModulo('norme_study', '/norme_study')];
+export const LISTA_MODULI = [new MyModulo('proto_app', '/norme_study')];

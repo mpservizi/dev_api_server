@@ -22,7 +22,7 @@ export class RequisitoNormativo extends MyModel {
    * @returns
    */
   async requisitiNorma(idNorma: any) {
-    let sql = this.qrBuilder.select.from('nomi').select('Nome').build();
+    let sql = MyModel.qrBuilder.select.from('nomi').select('Nome').build();
     let result = await super.load(sql);
     return result;
   }
@@ -33,7 +33,7 @@ export class RequisitoNormativo extends MyModel {
    * @returns
    */
   async addRequisito(payload: any) {
-    let sql = this.qrBuilder.insert
+    let sql = MyModel.qrBuilder.insert
       .into('nomi')
       .set({ Nome: payload.nome, Anni: payload.anni })
       .build();

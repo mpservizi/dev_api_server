@@ -3,16 +3,67 @@
  * Server per passare i dati tra il driver database e service
  */
 import Repo from '../storage';
+import { DbRisposta_I } from './interfacce/db_dto';
 import { MyDb } from './MyDb';
 import { MyQueryBuilder } from './MyQueryBuilder';
+
 export class MyModel {
-  db: MyDb;
-  qrBuilder: MyQueryBuilder;
-  constructor() {
-    //istanza della classe MyDb
-    this.db = Repo.getDb();
-    //query builder
-    this.qrBuilder = new MyQueryBuilder();
+  static db: MyDb = Repo.getDb();
+  static qrBuilder: MyQueryBuilder = new MyQueryBuilder();
+  //Oggetto con i nomi deicampi della tabella
+  obj_tabella: any = {
+    tabella: 'tab_xx',
+    //id:'CodiceNorma'
+  };
+
+  //Oggetto da passare al service come risposta
+  obj_service: any = {
+    //id:'std_code',
+  };
+
+  constructor() {}
+
+  /**
+   * Converte oggetto estratto dal database in oggetto da passare al service
+   * Viene eseguita la conversione basando sul nome delle chiavi del oggetto TABELLA_DB
+   * @param dbModel
+   * @returns
+   */
+  toAppModel(dbModel: any) {
+    let result: any = {};
+    let tab_db = this.obj_tabella;
+    let keys = Object.keys(tab_db);
+
+    keys.forEach((key: string) => {
+      // @ts-ignore
+      let key_db: string = tab_db[key];
+      if (dbModel[key_db]) {
+        result[key] = dbModel[key_db];
+      }
+    });
+    return result;
+  }
+
+  /**
+   * Carica i dati dal database
+   * @param {String} sql
+   */
+  async load(sql: string): Promise<DbRisposta_I> {
+    const payload = {
+      sql: sql,
+    };
+    const dati = await MyModel.db.query(payload);
+    //Se ci sono sati converto in obj service
+    if (dati.data) {
+      let result: any[] = [];
+      dati.data.forEach((item: any) => {
+        result.push(this.toAppModel(item));
+      });
+      return {
+        data: result,
+      };
+    }
+    return dati;
   }
 
   /**
@@ -21,54 +72,39 @@ export class MyModel {
    * @param {String} scalar : sql querry da eseguire dopo query sql
    * @returns {*} : id new nuovo elemento aggiunto
    */
-  async save(sql: string, scalar?: string): Promise<string> {
-    let myScalar = scalar || 'SELECT @@Identity AS id';
-    let payload = {
+  async save(sql: string, scalar?: string): Promise<DbRisposta_I> {
+    const payload = {
       sql: sql,
-      scalar: myScalar,
+      scalar: scalar || 'SELECT @@Identity AS id',
     };
-    let dati = await this.db.execute(payload);
-    //Se il risultato è un array restituisco id dal primo valore
-    if (dati.data.length) {
-      return '' + dati.data[0].id;
-    }
-    return '';
+    const dati = await MyModel.db.execute(payload);
+    return dati;
   }
-  /**
-   * Carica i dati dal database
-   * @param {String} sql
-   */
-  async load(sql: string): Promise<any[]> {
-    let payload = {
-      sql: sql,
-    };
-    let dati = await this.db.query(payload);
-    return dati.data;
-  }
+
   /**
    * Aggiorna i dati nel database
    * @param {String} sql : sql querry
    * @param {String} scalar : sql querry da eseguire dopo query sql
    */
-  async update(sql: string, scalar?: string): Promise<boolean> {
-    let payload = {
+  async update(sql: string, scalar?: string): Promise<DbRisposta_I> {
+    const payload = {
       sql: sql,
-      scalar: scalar,
+      scalar: scalar || 'SELECT @@Identity AS id',
     };
-    let dati = await this.db.execute(payload);
-    return true;
+    const dati = await MyModel.db.execute(payload);
+    return dati;
   }
   /**
    * Elimina i dati dal database
    * @param {String} sql : sql querry
    * @param {String} scalar : sql querry da eseguire dopo query sql
    */
-  async delete(sql: string, scalar?: string): Promise<boolean> {
-    let payload = {
+  async delete(sql: string, scalar?: string): Promise<DbRisposta_I> {
+    const payload = {
       sql: sql,
-      scalar: scalar,
+      scalar: scalar || 'SELECT @@Identity AS id',
     };
-    let dati = await this.db.execute(payload);
-    return true;
+    const dati = await MyModel.db.execute(payload);
+    return dati;
   }
 }

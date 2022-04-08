@@ -5,7 +5,7 @@
 //Attiva alis dei path indicati in package.json
 // require('module-alias/register');
 
-import Server from './server.js';
+import Server from './server';
 import { log as mLog } from './logger';
 import Config from './config';
 import Repo from './storage';
