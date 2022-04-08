@@ -1,4 +1,4 @@
-const MyController = require('@models/MyController');
+const MyController = require('./../../models/MyController');
 const Service = require('./service');
 
 class Controller extends MyController {

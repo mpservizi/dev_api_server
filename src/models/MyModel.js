@@ -2,21 +2,14 @@
  * Model base per interfacciarsi con in database
  * Server per passare i dati tra il driver database e service
  */
-const Repo = require('@storage/index');
-const sql = require('sql-query');
-const builder = sql.Query();
-class MyModel {
+import Repo from './../storage';
+import { MyQueryBuilder } from './MyQueryBuilder';
+export class MyModel {
   constructor() {
     //istanza della classe MyDb
     this.db = Repo.getDb();
     //query builder
-    this.qrBuilder = {
-      select: builder.select(),
-      insert: builder.insert(),
-      update: builder.update(),
-      update: builder.remove(),
-      create: builder.create(),
-    };
+    this.qrBuilder = new MyQueryBuilder();
     //Oggetto usato nel app
     this.appModel = {};
     //Campi uguali ai titoli del database
@@ -60,7 +53,10 @@ class MyModel {
    * @param {String} sql
    */
   async load(sql) {
-    let dati = await this.db.select(sql);
+    let payload = {
+      sql: sql,
+    };
+    let dati = await this.db.query(payload);
     let result = [];
     if (dati.length) {
       dati.forEach((item) => {
@@ -88,5 +84,3 @@ class MyModel {
     return dati;
   }
 }
-
-module.exports = MyModel;

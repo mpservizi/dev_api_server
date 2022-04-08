@@ -1,4 +1,4 @@
-const MyModulo = require('@models/MyModulo');
+const MyModulo = require('./../models/MyModulo');
 
 /**
  * Indicare qui tutti i moduli da caricare nel app

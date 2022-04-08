@@ -1,4 +1,4 @@
-const express = require('express');
+import express, { Express, Request, Response } from 'express';
 const { join } = require('path');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
@@ -50,9 +50,9 @@ function initServer() {
 }
 
 // Avvia server express
-async function startServer(app, port) {
+async function startServer(app: Express, port: Number): Promise<any> {
   return new Promise(function (resolve, reject) {
-    let result = {
+    let result: any = {
       data: '',
       err: null,
     };
@@ -62,7 +62,7 @@ async function startServer(app, port) {
           result.data = `Server ready on port ${port}`;
           resolve(result);
         })
-        .on('error', (err) => {
+        .on('error', (err: any) => {
           result.err = err;
           resolve(result);
         });
@@ -72,7 +72,7 @@ async function startServer(app, port) {
   });
 }
 
-module.exports = {
+export default {
   initServer,
   startServer,
 };

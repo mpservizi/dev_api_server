@@ -1,4 +1,4 @@
-const debug = require('debug')('foo:server');
+// const debug = require('debug')('foo:server');
 
 /**
  * Funzione usata per il log in tutta app

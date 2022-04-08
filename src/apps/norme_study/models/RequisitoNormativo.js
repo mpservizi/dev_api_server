@@ -1,4 +1,4 @@
-const MyModel = require('@models/MyModel');
+import { MyModel } from './../../../models/MyModel';
 
 class RequisitoNormativo extends MyModel {
   constructor() {

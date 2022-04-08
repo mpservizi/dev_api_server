@@ -3,23 +3,23 @@
  */
 
 //Attiva alis dei path indicati in package.json
-require('module-alias/register');
+// require('module-alias/register');
 
-const Server = require('./server');
+import Server from './server.js';
 const mLog = require('./logger');
 const Config = require('./config');
-const Repo = require('@storage');
-const AppModule = require('@apps');
+import Repo from './storage';
+const AppModule = require('./apps');
 
 /**
  * Entry point per node app, eseguire qui tutta la configurazione globale
  * @returns
  */
 async function startApp() {
-  let result = {
-    data: null,
-    config: null,
-    err: null,
+  let result: any = {
+    data: undefined,
+    config: undefined,
+    err: undefined,
   };
 
   try {

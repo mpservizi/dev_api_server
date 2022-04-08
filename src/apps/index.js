@@ -3,8 +3,8 @@
  * Qui vengono caricati tutti i moduli specificati nel file moduli.js
  */
 
-const MyDb = require('@models/MyDb');
-const MyModulo = require('@models/MyModulo');
+const MyDb = require('./../models/MyDb');
+const MyModulo = require('./../models/MyModulo');
 const LISTA_MODULI = require('./moduli');
 
 //Prefisso da mettere prima di caricare i vari routes dei moduli

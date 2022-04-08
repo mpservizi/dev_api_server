@@ -1,4 +1,4 @@
-const MyService = require('@models/MyService');
+const MyService = require('./../../models/MyService');
 const RequisitoNormativo = require('./models/RequisitoNormativo');
 
 class ServiceModulo extends MyService {

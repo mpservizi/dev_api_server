@@ -3,7 +3,7 @@
  * Inizzializzare qui il router e servizi
  */
 
-const MyModulo = require('@models/MyModulo');
+const MyModulo = require('./../../models/MyModulo');
 const router = require('./router');
 
 /**

@@ -3,7 +3,7 @@
  */
 
 // const MyDb = require('@models/MyDb');
-const SqlDb = require('./sql_db');
+import SqlDb from './sql_db';
 
 let database = null;
 /**
@@ -34,7 +34,7 @@ async function initRepo(config) {
   return result;
 }
 
-module.exports = {
+export default {
   initRepo,
   getDb: () => {
     return database;

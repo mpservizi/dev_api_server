@@ -1,4 +1,4 @@
-const router = require('@models/MyRouter');
+const router = require('./../../models/MyRouter');
 const controller = require('./controller');
 
 router.get('/ping', controller.ping);

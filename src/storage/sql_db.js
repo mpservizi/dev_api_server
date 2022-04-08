@@ -1,8 +1,8 @@
-const MyDb = require('@models/MyDb');
-const fs = require('fs');
+import { MyDb } from '../models/MyDb';
+import { existsSync } from 'fs';
 
-const ADODB = require('node-adodb');
-ADODB.debug = true;
+import { debug, open } from 'node-adodb';
+debug = true;
 
 const rispostaDefault = {
   data: 'Risposta default dal SQL db',
@@ -48,7 +48,7 @@ class SqlDb extends MyDb {
   }
 }
 
-module.exports = SqlDb;
+export default SqlDb;
 
 /**
  * Inizializza la connessione con il database
@@ -68,7 +68,7 @@ async function openConnection(dbPath) {
     ';Persist Security Info=False;';
   // console.log(conStr);
   try {
-    if (!fs.existsSync(dbPath)) {
+    if (!existsSync(dbPath)) {
       console.log('Percorso database non valido : ' + dbPath);
       return null;
     }
@@ -95,7 +95,7 @@ async function verificaDriver(conStr) {
   //Con alcune verizioni di office funziona 32 bit con altre 64bit
   //Provo entrambe le versioni e verifico se una delle 2 funziona
   let is64Bit = false;
-  let cnn = ADODB.open(conStr, is64Bit);
+  let cnn = open(conStr, is64Bit);
 
   //verifico la connessione
   let esito = await checkConnection(cnn);
@@ -104,7 +104,7 @@ async function verificaDriver(conStr) {
   }
   //Se non ha funzionato la precedente configurazione, cambio architerruta driver
   is64Bit = !is64Bit;
-  cnn = ADODB.open(conStr, is64Bit);
+  cnn = open(conStr, is64Bit);
   //verifico la connessione, restituisco null in caso d'errore
   esito = await checkConnection(cnn);
   if (esito) {
