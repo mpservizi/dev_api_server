@@ -1,11 +1,9 @@
 import { MyService } from '../../models/MyService';
 import { ProtoModel, MODEL_OBJ } from './models/ProtoModel';
 
-const model = new ProtoModel();
-class ServiceModulo extends MyService {
-  constructor() {
+export class ServiceModulo extends MyService {
+  constructor(private model: ProtoModel) {
     super();
-    this.model = new ProtoModel();
   }
 
   async listaRequirementsNorma(idNorma: any) {
@@ -21,10 +19,12 @@ class ServiceModulo extends MyService {
     let result = await this.model.addRequisito(payload);
     return result;
   }
+  async updateRequisito(payload: any) {
+    let result = await this.model.updateRequisito(payload);
+    return result;
+  }
   async deleteRequisito(payload: any) {
-    let result = await model.deleteRequisito(payload.id);
+    let result = await this.model.deleteRequisito(payload.id);
     return result;
   }
 }
-
-export default new ServiceModulo();

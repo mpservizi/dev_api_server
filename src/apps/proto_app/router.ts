@@ -1,10 +1,12 @@
 import { MyRouter } from '../../models/MyRouter';
-const controller = require('./controller').default;
+import { ProtoController_I } from './controller';
 
-const myRouter = new MyRouter();
-myRouter.get('/ping', controller.ping);
-myRouter.get('/1', controller.getListaRequisitiNorma);
-myRouter.post('/', controller.newRequisito);
-myRouter.post('/d', controller.prova);
+export function initRouter(controller: ProtoController_I) {
+  const myRouter = new MyRouter();
+  myRouter.get('/', controller.getListaRequisitiNorma);
+  myRouter.post('/', controller.newRequisito);
+  myRouter.put('/', controller.updadateRequisito);
+  myRouter.delete('/', controller.deleteRequisito);
 
-export const router = myRouter.router;
+  return myRouter;
+}

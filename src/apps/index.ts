@@ -19,13 +19,21 @@ async function initModules(app: Express, db: MyDb) {
     data: '',
     err: null,
   };
+  //Elenco di tutti routes per ogni modulo
+  let appRoutes: any = {};
+
   try {
-    LISTA_MODULI.forEach((mod) => {
-      //salvo il riferimento al database nel oggetto del modulo per passare ai singoli moduli
-      mod.db = db;
-      mod.app = app; //istanza express
-      initModulo(app, mod);
-    });
+    await Promise.all(
+      LISTA_MODULI.map(async (mod) => {
+        //salvo il riferimento al database nel oggetto del modulo per passare ai singoli moduli
+        mod.db = db;
+        mod.app = app; //istanza express
+        let routes = await initModulo(app, mod);
+        appRoutes[mod.nome] = routes;
+      })
+    );
+
+    // console.log(appRoutes);
 
     result.data = 'Moduli inizializzati correttamente';
   } catch (error) {
@@ -43,12 +51,15 @@ async function initModulo(app: Express, mod: MyModulo) {
   const modulo = await import(`./${mod.nome}/index`);
   //Chiamo il metodo per inizzializzare il modulo
   //Il modulo imposta il router sul oggetto passato
-  modulo.init(mod);
+  let resultInit = modulo.init(mod);
   //Abbino il router del modulo al path sel server
   //Il path del modulo inizia con /
   //api/nome_modulo/
   // @ts-ignore
-  app.use(`${ROUTE_PREFIX}${mod.path}/`, mod.router);
+  app.use(`${ROUTE_PREFIX}${mod.path}/`, resultInit.router);
+
+  //i routes creati dal modulo
+  return resultInit.routes;
 }
 
 export default { initModules };

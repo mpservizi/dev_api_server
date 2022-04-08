@@ -3,8 +3,8 @@
  */
 import { Request, Response, NextFunction } from 'express';
 
-export class MyController {
+export const MyController = {
   ping(req: Request, res: Response, next: NextFunction) {
     res.send('pong');
-  }
-}
+  },
+};

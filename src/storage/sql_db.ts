@@ -33,11 +33,20 @@ class SqlDb extends MyDb {
    * @returns
    */
   async query(payload: DbPayload_I) {
-    let dati = await this._cnn!.query(payload.sql);
     let result: DbRisposta_I = {
-      data: dati,
+      data: undefined,
       err: undefined,
     };
+    try {
+      let dati = await this._cnn!.query(payload.sql);
+      result.data = dati;
+    } catch (error: any) {
+      result.err = {
+        msg: 'Errore esecuzione select query',
+        payload: payload,
+        error: error.process.message,
+      };
+    }
     return result;
   }
   /**
@@ -46,11 +55,20 @@ class SqlDb extends MyDb {
    * @returns
    */
   async execute(payload: DbPayload_I) {
-    let dati = await this._cnn!.execute(payload.sql, payload.scalar);
     let result: DbRisposta_I = {
-      data: dati,
+      data: undefined,
       err: undefined,
     };
+    try {
+      let dati = await this._cnn!.execute(payload.sql, payload.scalar);
+      result.data = dati;
+    } catch (error: any) {
+      result.err = {
+        msg: 'Errore esecuzione action query',
+        payload: payload,
+        error: error.process.message,
+      };
+    }
     return result;
   }
 }

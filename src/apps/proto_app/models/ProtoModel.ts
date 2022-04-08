@@ -1,5 +1,6 @@
 import { MyModel } from '../../../models/MyModel';
 import builder from '../../../models/MyQueryBuilder';
+import { MyDbManager } from '../../../models/MyDbManger';
 
 //Campi uguali ai titoli del database
 export const TABELLA_DB = {
@@ -16,11 +17,13 @@ export const MODEL_OBJ = {
   anni: 'anni',
 };
 
+let dbm = new MyDbManager();
+
 export class ProtoModel extends MyModel {
   constructor() {
     super();
-    this.obj_tabella = TABELLA_DB;
-    this.obj_service = MODEL_OBJ;
+    this.setObjService(MODEL_OBJ);
+    this.setObjTabella(TABELLA_DB);
   }
   /**
    * Lista dei requisiti presenti nel db per id della norma
@@ -34,8 +37,8 @@ export class ProtoModel extends MyModel {
       .select(TABELLA_DB.id, TABELLA_DB.nome, TABELLA_DB.anni)
       .build();
 
-    let dati = await super.load(sql);
-    return dati;
+    let dati = await dbm.load(sql);
+    return this.convertiRispostaInAppModelList(dati);
   }
 
   /**
@@ -50,20 +53,33 @@ export class ProtoModel extends MyModel {
     let sql = builder.insert().into(TABELLA_DB.tabella).set(pojo).build();
 
     // console.log(sql);
-    let newId = await super.save(sql);
-    let result = { ...payload };
-    // @ts-ignore
-    result[MODEL_OBJ.id] = parseInt(newId);
-    return result;
+    let risposta = await dbm.save(sql);
+    return risposta;
   }
 
   async deleteRequisito(id: any) {
     let sql = builder
       .remove()
       .from(TABELLA_DB.tabella)
-      .where({ ID: id })
+      .where({ [TABELLA_DB.id]: id })
       .build();
-    let dati = await super.delete(sql);
+    let dati = await dbm.delete(sql);
     return dati;
+  }
+
+  async updateRequisito(payload: any) {
+    //Converto i campi del oggetto service in campi tabella
+    let id = payload[MODEL_OBJ.id];
+    delete payload[MODEL_OBJ.id];
+    let pojo = this.toDbModel(payload);
+    let sql = builder
+      .update()
+      .into(TABELLA_DB.tabella)
+      .set(pojo)
+      .where({ [TABELLA_DB.id]: id })
+      .build();
+    let scalar = `SELECT * FROM ${TABELLA_DB.tabella} WHERE ${TABELLA_DB.id} = ${id}`;
+    let dati = await dbm.update(sql, scalar);
+    return this.convertiRispostaInAppModelList(dati);
   }
 }

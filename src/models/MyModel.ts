@@ -1,35 +1,40 @@
 /**
- * Model base per interfacciarsi con in database
- * Server per passare i dati tra il driver database e service
+ * Server per passare i dati tra il database e service
  */
-import Repo from '../storage';
 import { DbRisposta_I } from './interfacce/db_dto';
-import { MyDb } from './MyDb';
-import builder from './MyQueryBuilder';
 
 export class MyModel {
-  static db: MyDb = Repo.getDb();
-  static qrBuilder: any = builder;
-  //Oggetto con i nomi deicampi della tabella
-  obj_tabella: any = {
-    tabella: 'tab_xx',
+  //Oggetto con i nomi dei campi = ai titoli della tabella
+  private obj_tabella: any = {
     //id:'CodiceNorma'
   };
 
   //Oggetto da passare al service come risposta
-  obj_service: any = {
+  private obj_service: any = {
     //id:'std_code',
   };
-
   constructor() {}
-
+  /**
+   * Impostare oggetto che contiene i campi presenti nella tabella
+   * @param payload
+   */
+  protected setObjTabella(payload: any) {
+    this.obj_tabella = payload;
+  }
+  /**
+   * Impostare oggetto da passare al service, convertendo colonne del db
+   * @param payload
+   */
+  protected setObjService(payload: any) {
+    this.obj_service = payload;
+  }
   /**
    * Converte oggetto estratto dal database in oggetto da passare al service
    * Viene eseguita la conversione basando sul nome delle chiavi del oggetto obj_tabella e obj_service
    * @param dbModel
    * @returns
    */
-  toAppModel(dbModel: any) {
+  protected toAppModel(dbModel: any) {
     let result: any = {};
     let tab_db = this.obj_tabella;
     let keys = Object.keys(tab_db);
@@ -48,7 +53,7 @@ export class MyModel {
    * Converte i campi dal service al db model
    * @param serviceModel : Oggetto con in campi uguale al obj_service
    */
-  toDbModel(serviceModel: any) {
+  protected toDbModel(serviceModel: any) {
     let result: any = {};
     let tab_db = this.obj_tabella;
     let keys = Object.keys(tab_db);
@@ -62,71 +67,25 @@ export class MyModel {
     });
     return result;
   }
-  /**
-   * Carica i dati dal database
-   * @param {String} sql
-   */
-  async load(sql: string): Promise<DbRisposta_I> {
-    const payload = {
-      sql: sql,
-    };
-    const dati = await MyModel.db.query(payload);
-    //Se ci sono sati converto in obj service
-    if (dati.data) {
-      let result: any[] = [];
-      dati.data.forEach((item: any) => {
-        result.push(this.toAppModel(item));
-      });
-      return {
-        data: result,
-      };
-    }
-    return dati;
-  }
 
   /**
-   * Salva i dati nel database
-   * @param {String} sql : sql querry
-   * @param {String} scalar : sql querry da eseguire dopo query sql
-   * @returns {*} : id new nuovo elemento aggiunto
+   * Converte la lista ricevuta dal db in lista di obj da usare in service
+   * @param dati
+   * @returns
    */
-  async save(sql: string, scalar?: string): Promise<string | number> {
-    const payload = {
-      sql: sql,
-      scalar: scalar || 'SELECT @@Identity AS id',
-    };
-    const dati = await MyModel.db.execute(payload);
-    //Se ci sono dati resituisco id generato
-    if (dati.data) {
-      return dati.data[0].id;
+  protected convertiRispostaInAppModelList(dati: DbRisposta_I): DbRisposta_I {
+    if (dati.err || !dati.data) {
+      return dati;
     }
-    return -1;
-  }
 
-  /**
-   * Aggiorna i dati nel database
-   * @param {String} sql : sql querry
-   * @param {String} scalar : sql querry da eseguire dopo query sql
-   */
-  async update(sql: string, scalar?: string): Promise<DbRisposta_I> {
-    const payload = {
-      sql: sql,
-      scalar: scalar || 'SELECT @@Identity AS id',
+    let result: any[] = [];
+    dati.data.forEach((item: any) => {
+      result.push(this.toAppModel(item));
+    });
+
+    return {
+      data: result,
+      err: undefined,
     };
-    const dati = await MyModel.db.execute(payload);
-    return dati;
-  }
-  /**
-   * Elimina i dati dal database
-   * @param {String} sql : sql querry
-   * @param {String} scalar : sql querry da eseguire dopo query sql
-   */
-  async delete(sql: string, scalar?: string): Promise<DbRisposta_I> {
-    const payload = {
-      sql: sql,
-      scalar: scalar || '',
-    };
-    const dati = await MyModel.db.execute(payload);
-    return dati;
   }
 }

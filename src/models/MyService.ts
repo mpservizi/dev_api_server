@@ -5,6 +5,5 @@
  * Le dipendenze devono essere caricate nel costruttore
  */
 export class MyService {
-  model: any;
   constructor() {}
 }

@@ -8,7 +8,7 @@ GET {{ping_route}} HTTP/1.1
 
 ###
 //Get request
-GET {{testUrl}}/1 HTTP/1.1
+GET {{testUrl}}/ HTTP/1.1
 
 ###
 //Post request
@@ -22,38 +22,21 @@ content-type: application/json
 
 ###
 //Prova delete
-POST {{testUrl}}/d HTTP/1.1
+DELETE  {{testUrl}}/ HTTP/1.1
 content-type: application/json
 
 {
-  "id": 43
+  "id": 46
 }
 
 ###
-//Update request sostituzione completa
-PUT  {{testUrl}} HTTP/1.1
+//Prova update
+PUT  {{testUrl}}/ HTTP/1.1
 content-type: application/json
 
 {
-    "_id": "6069b22433f72304c8a25b50",
-    "idMacchina": 4
+  "id": 46,
+  "nome": "Updated pojo model",
+  "anni": 10  
 }
-
 ###
-//Update request aggiornamento alcuni campi
-PATCH   {{testUrl}} HTTP/1.1
-content-type: application/json
-
-{
-    "_id": "6069b22433f72304c8a25b50",
-    "idMacchina": 4
-}
-
-###
-//Delete request
-DELETE   {{testUrl}} HTTP/1.1
-content-type: application/json
-
-{
-    "_id": "6069b22433f72304c8a25b50"
-}
