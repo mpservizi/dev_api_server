@@ -2,6 +2,10 @@ import Repo from '../storage';
 import { DbRisposta_I } from './interfacce/db_dto';
 import { MyDb } from './MyDb';
 
+/**
+ * Esegue operazioni CRUD sul database
+ */
+
 export class MyDbManager {
   private db: MyDb = Repo.getDb();
   constructor() {}
@@ -40,12 +44,16 @@ export class MyDbManager {
   /**
    * Aggiorna i dati nel database
    * @param {String} sql : sql querry
-   * @param {String} scalar : sql querry da eseguire dopo query sql
    */
-  async update(sql: string, scalar?: string): Promise<DbRisposta_I> {
+  async update(
+    sql: string,
+    tabella: string,
+    colonnaId: string,
+    id: string | number
+  ): Promise<DbRisposta_I> {
     const payload = {
       sql: sql,
-      scalar: scalar || '',
+      scalar: `SELECT * FROM ${tabella} WHERE ${colonnaId} = ${id}`,
     };
     const dati = await this.db.execute(payload);
     return dati;

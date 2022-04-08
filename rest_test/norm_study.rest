@@ -26,7 +26,7 @@ DELETE  {{testUrl}}/ HTTP/1.1
 content-type: application/json
 
 {
-  "id": 46
+  "id": 48
 }
 
 ###
@@ -35,7 +35,7 @@ PUT  {{testUrl}}/ HTTP/1.1
 content-type: application/json
 
 {
-  "id": 46,
+  "id": 48,
   "nome": "Updated pojo model",
   "anni": 10  
 }

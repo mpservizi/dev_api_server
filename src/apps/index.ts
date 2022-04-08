@@ -50,7 +50,6 @@ async function initModulo(app: Express, mod: MyModulo) {
   //Importo entry file dalla cartella del modulo
   const modulo = await import(`./${mod.nome}/index`);
   //Chiamo il metodo per inizzializzare il modulo
-  //Il modulo imposta il router sul oggetto passato
   let resultInit = modulo.init(mod);
   //Abbino il router del modulo al path sel server
   //Il path del modulo inizia con /
