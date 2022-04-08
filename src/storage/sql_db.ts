@@ -11,10 +11,8 @@ const rispostaDefault = {
 
 class SqlDb extends MyDb {
   private _cnn: DbCnn | undefined;
-  private _config: any;
   constructor(dbConfig: any) {
-    super();
-    this._config = dbConfig;
+    super(dbConfig);
   }
 
   async initDb() {

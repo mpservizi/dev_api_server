@@ -10,7 +10,23 @@ const rispostaDefault: DbRisposta_I = {
 };
 
 export class MyDb {
-  constructor() {}
+  _config: any;
+
+  constructor(dbConfig: any) {
+    this._config = dbConfig;
+  }
+  /**
+   * Inizzializzare qui il database
+   */
+  async initDb(): Promise<boolean> {
+    return Promise.resolve(true);
+  }
+  /**
+   * Inizzializzare qui il database
+   */
+  getPath(): string {
+    return 'Percorso del db ????';
+  }
   /**
    * Query selezione
    * @param {Object} payload
