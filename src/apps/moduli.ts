@@ -1,4 +1,4 @@
-const MyModulo = require('./../models/MyModulo');
+import { MyModulo } from '../models/MyModulo';
 
 /**
  * Indicare qui tutti i moduli da caricare nel app
@@ -11,6 +11,4 @@ const MyModulo = require('./../models/MyModulo');
   ),
  */
 
-const LISTA_MODULI = [new MyModulo('norme_study', '/norme_study')];
-
-module.exports = LISTA_MODULI;
+export const LISTA_MODULI = [new MyModulo('norme_study', '/norme_study')];

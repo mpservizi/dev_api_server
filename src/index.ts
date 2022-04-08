@@ -6,10 +6,10 @@
 // require('module-alias/register');
 
 import Server from './server.js';
-const mLog = require('./logger');
-const Config = require('./config');
+import { log as mLog } from './logger';
+import Config from './config';
 import Repo from './storage';
-const AppModule = require('./apps');
+import AppModule from './apps';
 
 /**
  * Entry point per node app, eseguire qui tutta la configurazione globale

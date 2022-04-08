@@ -1,5 +1,5 @@
-const MyService = require('./../../models/MyService');
-const RequisitoNormativo = require('./models/RequisitoNormativo');
+import { MyService } from '../../models/MyService';
+import { RequisitoNormativo } from './models/RequisitoNormativo';
 
 class ServiceModulo extends MyService {
   constructor() {
@@ -7,14 +7,14 @@ class ServiceModulo extends MyService {
     this.model = new RequisitoNormativo();
   }
 
-  async listaRequirementsNorma(idNorma) {
+  async listaRequirementsNorma(idNorma: any) {
     let result = await this.model.requisitiNorma(idNorma);
     return result;
   }
-  async addRequisito(payload) {
+  async addRequisito(payload: any) {
     let result = await this.model.addRequisito(payload);
     return result;
   }
 }
 
-module.exports = new ServiceModulo();
+export default new ServiceModulo();

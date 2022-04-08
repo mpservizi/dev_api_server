@@ -3,10 +3,10 @@
  * Qui vengono caricati tutti i moduli specificati nel file moduli.js
  */
 
-const MyDb = require('./../models/MyDb');
-const MyModulo = require('./../models/MyModulo');
-const LISTA_MODULI = require('./moduli');
-
+import { MyDb } from '../models/MyDb';
+import { MyModulo } from '../models/MyModulo';
+import { LISTA_MODULI } from './moduli';
+import { Express } from 'express';
 //Prefisso da mettere prima di caricare i vari routes dei moduli
 const ROUTE_PREFIX = '/api';
 /**
@@ -14,8 +14,8 @@ const ROUTE_PREFIX = '/api';
  * @param app : Express app
  * @param {MyDb} db : MyDb instanza
  */
-async function initModules(app, db) {
-  let result = {
+async function initModules(app: Express, db: MyDb) {
+  let result: any = {
     data: '',
     err: null,
   };
@@ -38,18 +38,17 @@ async function initModules(app, db) {
  * Carica il modulo in base ai parametri indicati
  * @param {MyModulo} mod : parametri del modulo da caricare
  */
-async function initModulo(app, mod) {
+async function initModulo(app: Express, mod: MyModulo) {
   //Importo entry file dalla cartella del modulo
-  const modulo = require(`./${mod.nome}/index`);
+  const modulo = await import(`./${mod.nome}/index`);
   //Chiamo il metodo per inizzializzare il modulo
   //Il modulo imposta il router sul oggetto passato
   modulo.init(mod);
   //Abbino il router del modulo al path sel server
   //Il path del modulo inizia con /
   //api/nome_modulo/
+  // @ts-ignore
   app.use(`${ROUTE_PREFIX}${mod.path}/`, mod.router);
 }
 
-module.exports = {
-  initModules,
-};
+export default { initModules };

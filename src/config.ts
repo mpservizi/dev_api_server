@@ -1,5 +1,5 @@
-const dotenv = require('dotenv');
-const path = require('path');
+import dotenv from 'dotenv';
+import path from 'path';
 /**
  * Importare qui le variabili ambiente
  */
@@ -19,7 +19,7 @@ function getConfig(dev = false) {
     };
   }
 
-  const ENV = result.parsed;
+  const ENV: any = result.parsed;
   return {
     port: parseInt(ENV.PORT, 10) || 3000,
     database: {
@@ -34,4 +34,4 @@ function getConfig(dev = false) {
   };
 }
 
-module.exports = { load: getConfig };
+export default { load: getConfig };

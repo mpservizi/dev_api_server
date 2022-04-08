@@ -2,19 +2,12 @@
  * Classe base per rappresentare il driver del database
  * Per cambiare il tipo di database, estendere questa classe e implementare i metodi
  */
-const rispostaDefault: DbRisposta = {
+import { DbRisposta_I, DbPayload_I } from './interfacce/db_dto';
+
+const rispostaDefault: DbRisposta_I = {
   data: ['Risposta default dal db'],
   err: undefined,
 };
-
-interface DbRisposta {
-  data: Array<any>;
-  err?: object;
-}
-interface DbPayload {
-  sql: string;
-  scalar?: string;
-}
 
 export class MyDb {
   constructor() {}
@@ -23,7 +16,7 @@ export class MyDb {
    * @param {Object} payload
    * @returns
    */
-  query(payload: DbPayload): Promise<DbRisposta> {
+  query(payload: DbPayload_I): Promise<DbRisposta_I> {
     return Promise.resolve(rispostaDefault);
   }
   /**
@@ -31,7 +24,7 @@ export class MyDb {
    * @param {Object} payload
    * @returns
    */
-  execute(payload: DbPayload): Promise<DbRisposta> {
+  execute(payload: DbPayload_I): Promise<DbRisposta_I> {
     return Promise.resolve(rispostaDefault);
   }
 }

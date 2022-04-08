@@ -4,8 +4,7 @@
  * Il file service deve essere facilmente testabile, non deve contenere codice di altre librerie
  * Le dipendenze devono essere caricate nel costruttore
  */
-class MyService {
+export class MyService {
+  model: any;
   constructor() {}
 }
-
-module.exports = MyService;

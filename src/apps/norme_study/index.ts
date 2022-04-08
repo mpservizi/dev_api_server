@@ -3,19 +3,14 @@
  * Inizzializzare qui il router e servizi
  */
 
-const MyModulo = require('./../../models/MyModulo');
-const router = require('./router');
-
+import { MyModulo } from '../../models/MyModulo';
+import { router } from './router';
 /**
  * Inizializza i routes del modulo
  * @param {MyModulo} mod : Istanza di MyModulo, usato per passare i dati tra codice dei vari file
  */
-function init(mod) {
+export function init(mod: MyModulo) {
   //   Controller.init(app,mod);
   //Imposto il router nel oggetto passato
   mod.router = router;
 }
-
-module.exports = {
-  init,
-};

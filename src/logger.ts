@@ -4,8 +4,6 @@
  * Funzione usata per il log in tutta app
  * @param {*} args
  */
-function log(args) {
+export function log(args: any) {
   console.log(args);
 }
-
-module.exports = log;

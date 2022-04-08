@@ -1,18 +1,19 @@
 import { MyDb } from '../models/MyDb';
 import { existsSync } from 'fs';
+import { DbPayload_I, DbRisposta_I } from 'src/models/interfacce/db_dto';
 
-import { debug, open } from 'node-adodb';
-debug = true;
-
+import { open as DbCnn } from 'node-adodb';
+const ADODB = require('node-adodb');
 const rispostaDefault = {
   data: 'Risposta default dal SQL db',
   err: null,
 };
 
 class SqlDb extends MyDb {
-  constructor(dbConfig) {
+  private _cnn: DbCnn | undefined;
+  private _config: any;
+  constructor(dbConfig: any) {
     super();
-    this._cnn = null;
     this._config = dbConfig;
   }
 
@@ -33,8 +34,12 @@ class SqlDb extends MyDb {
    * @param {Object} payload
    * @returns
    */
-  async query(payload) {
-    let result = await this._cnn.query(payload.sql);
+  async query(payload: DbPayload_I) {
+    let dati = await this._cnn!.query(payload.sql);
+    let result: DbRisposta_I = {
+      data: dati,
+      err: undefined,
+    };
     return result;
   }
   /**
@@ -42,8 +47,12 @@ class SqlDb extends MyDb {
    * @param {Object} payload
    * @returns
    */
-  async execute(payload) {
-    let result = await this._cnn.execute(payload.sql, payload.scalar);
+  async execute(payload: DbPayload_I) {
+    let dati = await this._cnn!.execute(payload.sql, payload.scalar);
+    let result: DbRisposta_I = {
+      data: dati,
+      err: undefined,
+    };
     return result;
   }
 }
@@ -56,7 +65,7 @@ export default SqlDb;
  * @returns {Object} connessione al database. Null in caso di errore
  */
 
-async function openConnection(dbPath) {
+async function openConnection(dbPath: string) {
   // const provider = "Microsoft.Jet.OLEDB.4.0"; //.mdb
   const provider = 'Microsoft.ACE.OLEDB.12.0'; //.accdb office 2010
 
@@ -91,11 +100,11 @@ async function openConnection(dbPath) {
  * @param {String} conStr
  * @returns {Object} driver oppure null
  */
-async function verificaDriver(conStr) {
+async function verificaDriver(conStr: string) {
   //Con alcune verizioni di office funziona 32 bit con altre 64bit
   //Provo entrambe le versioni e verifico se una delle 2 funziona
   let is64Bit = false;
-  let cnn = open(conStr, is64Bit);
+  let cnn = ADODB.open(conStr, is64Bit);
 
   //verifico la connessione
   let esito = await checkConnection(cnn);
@@ -104,7 +113,7 @@ async function verificaDriver(conStr) {
   }
   //Se non ha funzionato la precedente configurazione, cambio architerruta driver
   is64Bit = !is64Bit;
-  cnn = open(conStr, is64Bit);
+  cnn = ADODB.open(conStr, is64Bit);
   //verifico la connessione, restituisco null in caso d'errore
   esito = await checkConnection(cnn);
   if (esito) {
@@ -118,7 +127,7 @@ async function verificaDriver(conStr) {
  * @param {Object} cnn :  ADODB connection
  * @returns
  */
-async function checkConnection(cnn) {
+async function checkConnection(cnn: DbCnn) {
   //Provo eseguire una query di selezione su una tabella finta
   const FAKE_TABLE = 'NOMI_XXXXXX';
   let test_sql = `SELECT id from ${FAKE_TABLE}`;
@@ -127,7 +136,7 @@ async function checkConnection(cnn) {
     let dati = await cnn.query(test_sql);
     //Se la tabella esiste e ho estratto i dati
     result = true;
-  } catch (error) {
+  } catch (error: any) {
     //Se il testo d'errore contiene nome della tabella
     //Significa che il driver funziona, errore indica che la tabella non esiste
     if (error.process.message.includes(FAKE_TABLE)) {
