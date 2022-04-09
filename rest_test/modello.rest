@@ -1,0 +1,40 @@
+@baseUrl = http://localhost:3000/api
+@app_route = /norme_study
+@ping_route = {{baseUrl}}{{app_route}}/ping
+@testUrl = {{baseUrl}}{{app_route}}/
+
+//Ping route
+GET {{ping_route}} HTTP/1.1
+
+###
+//Select All
+GET {{testUrl}}/ HTTP/1.1
+
+###
+//Insert
+POST {{testUrl}} HTTP/1.1
+content-type: application/json
+
+{
+  "nome": "Pojo tester",
+  "anni": 10
+}
+
+###
+//Update
+PUT  {{testUrl}}/ HTTP/1.1
+content-type: application/json
+
+{
+  "id": 48,
+  "nome": "Updated pojo model",
+  "anni": 10  
+}
+###
+//Delete
+DELETE  {{testUrl}}/ HTTP/1.1
+content-type: application/json
+
+{
+  "id": 48
+}

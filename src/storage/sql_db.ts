@@ -3,11 +3,8 @@ import { existsSync } from 'fs';
 import { DbPayload_I, DbRisposta_I } from 'src/models/interfacce/db_dto';
 
 import { open as DbCnn } from 'node-adodb';
+import { mDebug } from '../logger';
 const ADODB = require('node-adodb');
-const rispostaDefault = {
-  data: 'Risposta default dal SQL db',
-  err: null,
-};
 
 class SqlDb extends MyDb {
   private _cnn: DbCnn | undefined;
@@ -38,6 +35,9 @@ class SqlDb extends MyDb {
       err: undefined,
     };
     try {
+      if (this._config.debug) {
+        mDebug('Db query : ', payload.sql);
+      }
       let dati = await this._cnn!.query(payload.sql);
       result.data = dati;
     } catch (error: any) {
@@ -60,6 +60,10 @@ class SqlDb extends MyDb {
       err: undefined,
     };
     try {
+      if (this._config.debug) {
+        mDebug('Db execute : ', payload.sql);
+        mDebug('scalar : ', payload.scalar);
+      }
       let dati = await this._cnn!.execute(payload.sql, payload.scalar);
       result.data = dati;
     } catch (error: any) {
@@ -121,7 +125,6 @@ async function verificaDriver(conStr: string) {
   //Provo entrambe le versioni e verifico se una delle 2 funziona
   let is64Bit = false;
   let cnn = ADODB.open(conStr, is64Bit);
-
   //verifico la connessione
   let esito = await checkConnection(cnn);
   if (esito) {

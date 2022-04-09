@@ -1,9 +1,7 @@
-// const debug = require('debug')('foo:server');
+const debug = require('debug')('my_app');
 
 /**
  * Funzione usata per il log in tutta app
- * @param {*} args
  */
-export function log(args: any) {
-  console.log(args);
-}
+debug.enabled = true;
+export const mDebug = debug;

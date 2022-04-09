@@ -6,7 +6,7 @@
 // require('module-alias/register');
 
 import Server from './server';
-import { log as mLog } from './logger';
+import { mDebug } from './logger';
 import Config from './config';
 import Repo from './storage';
 import AppModule from './apps';
@@ -35,9 +35,9 @@ async function startApp() {
     }
 
     if (DEV_MODE) {
-      mLog('Dev env file loaded');
+      mDebug('Dev env file loaded');
     } else {
-      mLog('Production Env file loaded');
+      mDebug('Production Env file loaded');
     }
 
     //Inizzializzo il repository
@@ -48,7 +48,7 @@ async function startApp() {
       return result;
     }
 
-    mLog(repoResult.data);
+    mDebug(repoResult.data);
 
     //Creo express app senza farla partire
     const app = Server.initServer();
@@ -62,7 +62,7 @@ async function startApp() {
       return result;
     }
 
-    mLog(modResult.data);
+    mDebug(modResult.data);
 
     //Faccio partire il server express
     const response = await Server.startServer(app, config.port);
@@ -90,10 +90,10 @@ async function startApp() {
 async function avvio() {
   let result = await startApp();
   if (!result.err) {
-    mLog(result.data);
+    mDebug(result.data);
   } else {
-    mLog('Errore inizializzazione applicazione. Err:');
-    mLog(result.err);
+    mDebug('Errore inizializzazione applicazione. Err:');
+    mDebug(result.err);
   }
 }
 

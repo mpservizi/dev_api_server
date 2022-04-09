@@ -7,11 +7,20 @@
 GET {{ping_route}} HTTP/1.1
 
 ###
-//Get request
+//Select All
 GET {{testUrl}}/ HTTP/1.1
 
 ###
-//Post request
+//Norma by id
+POST {{testUrl}}/id HTTP/1.1
+content-type: application/json
+
+{
+  "id": 2
+}
+
+###
+//Insert
 POST {{testUrl}} HTTP/1.1
 content-type: application/json
 
@@ -21,16 +30,17 @@ content-type: application/json
 }
 
 ###
-//Prova delete
-DELETE  {{testUrl}}/ HTTP/1.1
+//Insert
+POST {{testUrl}} HTTP/1.1
 content-type: application/json
 
 {
-  "id": 48
+  "nome": "Pojo tester",
+  "anni": 10
 }
 
 ###
-//Prova update
+//Update
 PUT  {{testUrl}}/ HTTP/1.1
 content-type: application/json
 
@@ -40,3 +50,10 @@ content-type: application/json
   "anni": 10  
 }
 ###
+//Delete
+DELETE  {{testUrl}}/ HTTP/1.1
+content-type: application/json
+
+{
+  "id": 48
+}
