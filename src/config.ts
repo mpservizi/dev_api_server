@@ -27,6 +27,7 @@ function getConfig(dev = false) {
       nome: ENV.DB_NAME,
       path: ENV.DB_PATH,
       fake: parseInt(ENV.FAKE, 10) || 0,
+      debug: parseInt(ENV.DB_DEBUG, 10) || 0,
     },
     settings: {
       appName: ENV.APP_NAME,

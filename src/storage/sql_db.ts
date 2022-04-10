@@ -3,7 +3,7 @@ import { existsSync } from 'fs';
 import { DbPayload_I, DbRisposta_I } from 'src/models/interfacce/db_dto';
 
 import { open as DbCnn } from 'node-adodb';
-import { mDebug } from '../logger';
+import { logger } from '../logger';
 const ADODB = require('node-adodb');
 
 class SqlDb extends MyDb {
@@ -36,7 +36,7 @@ class SqlDb extends MyDb {
     };
     try {
       if (this._config.debug) {
-        mDebug('Db query : ', payload.sql);
+        logger.info('Db query : ', payload.sql);
       }
       let dati = await this._cnn!.query(payload.sql);
       result.data = dati;
@@ -61,8 +61,8 @@ class SqlDb extends MyDb {
     };
     try {
       if (this._config.debug) {
-        mDebug('Db execute : ', payload.sql);
-        mDebug('scalar : ', payload.scalar);
+        logger.info('Db execute : ', payload.sql);
+        logger.info('scalar : ', payload.scalar);
       }
       let dati = await this._cnn!.execute(payload.sql, payload.scalar);
       result.data = dati;

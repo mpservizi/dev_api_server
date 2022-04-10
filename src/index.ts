@@ -1,12 +1,8 @@
 /**
  * Entry poit di node app.
  */
-
-//Attiva alis dei path indicati in package.json
-// require('module-alias/register');
-
 import Server from './server';
-import { mDebug } from './logger';
+import { logger } from './logger';
 import Config from './config';
 import Repo from './storage';
 import AppModule from './apps';
@@ -35,9 +31,9 @@ async function startApp() {
     }
 
     if (DEV_MODE) {
-      mDebug('Dev env file loaded');
+      logger.debug('Dev env file loaded');
     } else {
-      mDebug('Production Env file loaded');
+      logger.debug('Production Env file loaded');
     }
 
     //Inizzializzo il repository
@@ -48,7 +44,7 @@ async function startApp() {
       return result;
     }
 
-    mDebug(repoResult.data);
+    logger.debug(repoResult.data);
 
     //Creo express app senza farla partire
     const app = Server.initServer();
@@ -62,7 +58,7 @@ async function startApp() {
       return result;
     }
 
-    mDebug(modResult.data);
+    logger.debug(modResult.data);
 
     //Faccio partire il server express
     const response = await Server.startServer(app, config.port);
@@ -90,10 +86,10 @@ async function startApp() {
 async function avvio() {
   let result = await startApp();
   if (!result.err) {
-    mDebug(result.data);
+    logger.info(result.data);
   } else {
-    mDebug('Errore inizializzazione applicazione. Err:');
-    mDebug(result.err);
+    logger.error('Errore inizializzazione applicazione. Err:');
+    logger.error(result.err);
   }
 }
 

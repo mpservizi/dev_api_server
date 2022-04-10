@@ -3,6 +3,7 @@ const { join } = require('path');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const helmet = require('helmet');
+import { logger } from './logger';
 // const favicon = require("serve-favicon");
 
 // const router = require("../apps/router");
@@ -18,8 +19,23 @@ function initServer() {
     })
   );
 
-  app.use(morgan('tiny'));
+  // app.use(morgan('tiny'));
+  app.use(
+    morgan(function (tokens: any, req: Request, res: Response) {
+      let msg = [
+        tokens.method(req, res),
+        tokens.url(req, res),
+        tokens.status(req, res),
+        tokens.res(req, res, 'content-length'),
+        '-',
+        tokens['response-time'](req, res),
+        'ms',
+      ].join(' ');
 
+      logger.debug('My Log : ' + msg);
+      // return msg;
+    })
+  );
   // uncomment after placing your favicon in /public
   //app.use(favicon(__dirname + '/public/favicon.ico'));
 
