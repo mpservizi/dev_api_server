@@ -1,14 +1,14 @@
 @baseUrl = http://localhost:3000/api
 @app_route = /norme_study
 @ping_route = {{baseUrl}}{{app_route}}/ping
-@testUrl = {{baseUrl}}{{app_route}}/
+@testUrl = {{baseUrl}}{{app_route}}
 
 //Ping route
 GET {{ping_route}} HTTP/1.1
 
 ###
 //Select All
-GET {{testUrl}}/ HTTP/1.1
+GET {{testUrl}} HTTP/1.1
 
 ###
 //Norma by id
@@ -41,7 +41,7 @@ content-type: application/json
 
 ###
 //Update
-PUT  {{testUrl}}/ HTTP/1.1
+PUT  {{testUrl}} HTTP/1.1
 content-type: application/json
 
 {
@@ -51,7 +51,7 @@ content-type: application/json
 }
 ###
 //Delete
-DELETE  {{testUrl}}/ HTTP/1.1
+DELETE  {{testUrl}} HTTP/1.1
 content-type: application/json
 
 {

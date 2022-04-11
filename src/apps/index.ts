@@ -55,7 +55,7 @@ async function initModulo(app: Express, mod: MyModulo) {
   //Il path del modulo inizia con /
   //api/nome_modulo/
   // @ts-ignore
-  app.use(`${ROUTE_PREFIX}${mod.path}/`, resultInit.router);
+  app.use(`${ROUTE_PREFIX}${mod.path}`, resultInit.router);
 
   //i routes creati dal modulo
   return resultInit.routes;
