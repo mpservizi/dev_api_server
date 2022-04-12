@@ -12,8 +12,9 @@ import { engine } from 'express-handlebars';
 //Inizializza app express
 function initServer() {
   const app = express();
-  const PUBLIC_FOLDER = join(__dirname, '..', 'public');
   const VIEWS_FOLDER = join(__dirname, '..', 'views');
+  // const PUBLIC_FOLDER = join(__dirname, '..', 'public');
+  const PUBLIC_FOLDER = join(VIEWS_FOLDER, 'assets');
   const LAYOUTS_FOLDER = join(VIEWS_FOLDER, '_layouts');
   const PARTIALS_FOLDER = join(VIEWS_FOLDER, '_partials');
   const APPS_FOLDER = join(VIEWS_FOLDER, 'apps');

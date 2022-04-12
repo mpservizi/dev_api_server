@@ -51,11 +51,14 @@ async function initModulo(app: Express, mod: MyModulo) {
   const modulo = await import(`./${mod.nome}/index`);
   //Chiamo il metodo per inizzializzare il modulo
   let resultInit = modulo.init(mod);
-  //Abbino il router del modulo al path sel server
+
+  //Abbino il router del modulo al path del server
   //Il path del modulo inizia con /
   //api/nome_modulo/
+  //se non è indicato il prefisso del modulo, uso default prefix
+  let prefisso = mod.prefix || ROUTE_PREFIX;
   // @ts-ignore
-  app.use(`${ROUTE_PREFIX}${mod.path}`, resultInit.router);
+  app.use(`${prefisso}${mod.path}`, resultInit.router);
 
   //i routes creati dal modulo
   return resultInit.routes;

@@ -17,5 +17,9 @@ export class MyModulo {
    * @param nome : nome della cartella in folder apps
    * @param path : percorso del router
    */
-  constructor(public nome: string, public path: string) {}
+  constructor(
+    public nome: string,
+    public path: string,
+    public prefix?: string
+  ) {}
 }

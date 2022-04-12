@@ -6,9 +6,13 @@ import { MyModulo } from '../models/MyModulo';
  *   new MyModulo(
     "norme_study", = nome della cartella in apps folder
     "/norme_study", = percorso dove caricare il modulo. Deve iniziare con /
+    "views" = prefisso da mettere prima del modulo, defalut = api/
     "Standard requirements", = Label, non usato per il momento
     "Analisi dei requisiti normativi" = Descrizione, non usato per il momento
   ),
  */
 
-export const LISTA_MODULI = [new MyModulo('study_norma', '/norme_study')];
+export const LISTA_MODULI = [
+  new MyModulo('study_norma', '/norme_study'),
+  new MyModulo('view_test', '/views', '/ui'),
+];
