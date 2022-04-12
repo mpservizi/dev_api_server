@@ -1,4 +1,4 @@
-import { MyRouter } from '../../models/MyRouter';
+import { MyRouter } from '@models/MyRouter';
 import { ViewController_I } from './controller';
 
 export function initRouter(controller: ViewController_I) {

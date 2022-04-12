@@ -1,4 +1,4 @@
-import { MyService } from '../../models/MyService';
+import { MyService } from '@models/MyService';
 import { ProtoModel, MODEL_OBJ } from './models/ProtoModel';
 
 export class ServiceModulo extends MyService {

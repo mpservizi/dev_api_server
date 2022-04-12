@@ -3,7 +3,7 @@
  * Inizzializzare qui il router e servizi
  */
 
-import { MyModulo } from '../../models/MyModulo';
+import { MyModulo } from '@models/MyModulo';
 import { initRouter } from './router';
 import { ProtoModel } from './models/ProtoModel';
 import { ServiceModulo } from './service';

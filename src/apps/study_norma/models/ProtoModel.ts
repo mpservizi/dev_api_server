@@ -1,6 +1,6 @@
-import { MyModel } from '../../../models/MyModel';
-import { NormaModel } from './../../base_models/NormaModel';
-import { StudyNormaModel } from './../../base_models/StudyNormaModel';
+import { MyModel } from '@models/MyModel';
+import { NormaModel } from '@apps/base_models/NormaModel';
+import { StudyNormaModel } from '@apps/base_models/StudyNormaModel';
 //Campi uguali ai titoli del database
 export const TABELLA_DB = {
   tabella: 'nomi',

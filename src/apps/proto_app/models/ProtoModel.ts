@@ -1,4 +1,4 @@
-import { MyModel } from '../../../models/MyModel';
+import { MyModel } from '@models/MyModel';
 //Campi uguali ai titoli del database
 export const TABELLA_DB = {
   tabella: 'nomi',

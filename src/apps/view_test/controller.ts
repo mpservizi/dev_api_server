@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { MyView } from './../../models/MyView';
+import { MyView } from '@models/MyView';
 
 export interface ViewController_I {
   prova(req: Request, res: Response, next: NextFunction): void;

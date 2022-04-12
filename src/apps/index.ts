@@ -3,11 +3,11 @@
  * Qui vengono caricati tutti i moduli specificati nel file moduli.js
  */
 
-import { MyDb } from '../models/MyDb';
-import { MyModulo } from '../models/MyModulo';
+import { MyDb } from '@models/MyDb';
+import { MyModulo } from '@models/MyModulo';
 import { LISTA_MODULI } from './moduli';
 import { Express } from 'express';
-import { logger } from './../logger';
+import { logger } from '@src/logger';
 //Prefisso da mettere prima di caricare i vari routes dei moduli
 const ROUTE_PREFIX = '/api';
 /**

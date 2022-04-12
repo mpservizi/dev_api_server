@@ -3,7 +3,7 @@
  */
 
 // const MyDb = require('@models/MyDb');
-import { MyDb } from 'src/models/MyDb';
+import { MyDb } from '@models/MyDb';
 import SqlDb from './sql_db';
 
 let database: MyDb;

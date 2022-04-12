@@ -1,9 +1,9 @@
-import { MyDb } from '../models/MyDb';
+import { MyDb } from '@models/MyDb';
 import { existsSync } from 'fs';
-import { DbPayload_I, DbRisposta_I } from 'src/models/interfacce/db_dto';
+import { DbPayload_I, DbRisposta_I } from '@models/interfacce/db_dto';
 
 import { open as DbCnn } from 'node-adodb';
-import { logger } from '../logger';
+import { logger } from '@src/logger';
 const ADODB = require('node-adodb');
 
 class SqlDb extends MyDb {

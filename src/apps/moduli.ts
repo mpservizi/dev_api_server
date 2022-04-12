@@ -1,4 +1,4 @@
-import { MyModulo } from '../models/MyModulo';
+import { MyModulo } from '@models/MyModulo';
 
 /**
  * Indicare qui tutti i moduli da caricare nel app
