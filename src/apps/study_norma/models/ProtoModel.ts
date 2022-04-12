@@ -1,5 +1,6 @@
 import { MyModel } from '../../../models/MyModel';
 import { NormaModel } from './../../base_models/NormaModel';
+import { StudyNormaModel } from './../../base_models/StudyNormaModel';
 //Campi uguali ai titoli del database
 export const TABELLA_DB = {
   tabella: 'nomi',
@@ -17,9 +18,11 @@ export const MODEL_OBJ = {
 
 export class ProtoModel extends MyModel {
   private normaModel: NormaModel;
+  private studyNormaModel: StudyNormaModel;
   constructor() {
     super();
     this.normaModel = new NormaModel();
+    this.studyNormaModel = new StudyNormaModel();
     this.setObjService(MODEL_OBJ);
     this.setObjTabella(TABELLA_DB);
   }
@@ -33,15 +36,8 @@ export class ProtoModel extends MyModel {
    * @returns
    */
   async requisitiNorma(idNorma: any) {
-    let norma = await this.normaModel.getNormaById(idNorma);
-    let requisiti = fakeRequisiti(idNorma);
-    let result = {
-      data: {
-        norma: norma,
-        requisiti: requisiti,
-      },
-    };
-    return result;
+    let requisiti = await this.studyNormaModel.getRequisitiPerNorma(idNorma);
+    return requisiti;
     // return this.selectAll(TABELLA_DB.tabella);
   }
   /**

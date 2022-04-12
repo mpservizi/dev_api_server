@@ -7,6 +7,6 @@ export function initRouter(controller: ProtoController_I) {
   myRouter.post('/', controller.newRequisito);
   myRouter.put('/', controller.updadateRequisito);
   myRouter.delete('/', controller.deleteRequisito);
-  myRouter.get('/:id', controller.getNormaById);
+  myRouter.get('/:id', controller.getRequisitiPerNorma);
   return myRouter;
 }
