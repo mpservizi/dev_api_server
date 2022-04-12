@@ -23,15 +23,25 @@ export class ProtoModel extends MyModel {
     this.setObjService(MODEL_OBJ);
     this.setObjTabella(TABELLA_DB);
   }
+  async findAll() {
+    let norme = await this.normaModel.getAllNorme();
+    return norme;
+  }
   /**
    * Lista dei requisiti presenti nel db per id della norma
    * @param {*} idNorma
    * @returns
    */
   async requisitiNorma(idNorma: any) {
-    // let norme = await this.normaModel.getAllNorme();
-    let norme = await this.normaModel.getNormaById(idNorma);
-    return norme;
+    let norma = await this.normaModel.getNormaById(idNorma);
+    let requisiti = fakeRequisiti(idNorma);
+    let result = {
+      data: {
+        norma: norma,
+        requisiti: requisiti,
+      },
+    };
+    return result;
     // return this.selectAll(TABELLA_DB.tabella);
   }
   /**
@@ -61,4 +71,16 @@ export class ProtoModel extends MyModel {
   async updateRequisito(payload: any) {
     return this.updateDb(TABELLA_DB.tabella, payload, MODEL_OBJ.id);
   }
+}
+
+function fakeRequisiti(norma: any) {
+  let result = [];
+  for (let index = 1; index < 6; index++) {
+    result.push({
+      id: index,
+      requirement: 'Requisito ' + index,
+      idNorma: norma,
+    });
+  }
+  return result;
 }

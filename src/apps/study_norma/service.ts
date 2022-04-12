@@ -6,8 +6,18 @@ export class ServiceModulo extends MyService {
     super();
   }
 
-  async listaRequirementsNorma(idNorma: any) {
-    let result = await this.model.requisitiNorma(idNorma);
+  async getAll() {
+    let result = await this.model.findAll();
+    return result;
+  }
+  async listaRequirementsNorma(idNorma: string) {
+    let id = parseInt(idNorma);
+    if (isNaN(id)) {
+      return {
+        err: 'Id non valido : ' + id,
+      };
+    }
+    let result = await this.model.requisitiNorma(id);
     return result;
   }
   async addRequisito(payload: any) {

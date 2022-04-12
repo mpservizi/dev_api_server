@@ -7,6 +7,7 @@ import { MyDb } from '../models/MyDb';
 import { MyModulo } from '../models/MyModulo';
 import { LISTA_MODULI } from './moduli';
 import { Express } from 'express';
+import { logger } from './../logger';
 //Prefisso da mettere prima di caricare i vari routes dei moduli
 const ROUTE_PREFIX = '/api';
 /**
@@ -33,8 +34,7 @@ async function initModules(app: Express, db: MyDb) {
       })
     );
 
-    // console.log(appRoutes);
-
+    logger.info(JSON.stringify(appRoutes));
     result.data = 'Moduli inizializzati correttamente';
   } catch (error) {
     result.err = error;

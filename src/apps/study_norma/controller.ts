@@ -1,5 +1,6 @@
 import { ServiceModulo } from './service';
 import { Request, Response, NextFunction } from 'express';
+import { logger } from './../../logger';
 
 export interface ProtoController_I {
   getListaRequisitiNorma(req: Request, res: Response, next: NextFunction): void;
@@ -18,13 +19,13 @@ export function initController(provider: ServiceModulo): ProtoController_I {
       res: Response,
       next: NextFunction
     ) {
-      let dati = await service.listaRequirementsNorma(1);
+      logger.debug(req.query.id);
+      let dati = await service.getAll();
       res.send(dati);
     },
     //
     async getNormaById(req: Request, res: Response, next: NextFunction) {
-      let payload = req.body;
-      let dati = await service.listaRequirementsNorma(payload.id);
+      let dati = await service.listaRequirementsNorma(req.params.id);
       res.send(dati);
     },
 

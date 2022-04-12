@@ -74,6 +74,9 @@ export class NormaModel extends MyModel {
       .build();
 
     let dati = await this.dbm.load(sql);
+    if (dati.err) {
+      return dati;
+    }
     let lista = this.convertiRispostaInAppModelList(dati);
     return lista.data[0];
   }

@@ -36,7 +36,7 @@ class SqlDb extends MyDb {
     };
     try {
       if (this._config.debug) {
-        logger.info('Db query : ', payload.sql);
+        logger.info('Db query : ' + payload.sql);
       }
       let dati = await this._cnn!.query(payload.sql);
       result.data = dati;
@@ -61,8 +61,8 @@ class SqlDb extends MyDb {
     };
     try {
       if (this._config.debug) {
-        logger.info('Db execute : ', payload.sql);
-        logger.info('scalar : ', payload.scalar);
+        logger.info('Db execute : ' + payload.sql);
+        logger.info('scalar : ' + payload.scalar);
       }
       let dati = await this._cnn!.execute(payload.sql, payload.scalar);
       result.data = dati;
@@ -98,19 +98,19 @@ async function openConnection(dbPath: string) {
   // console.log(conStr);
   try {
     if (!existsSync(dbPath)) {
-      console.log('Percorso database non valido : ' + dbPath);
+      logger.error('Percorso database non valido : ' + dbPath);
       return null;
     }
 
     let connection = await verificaDriver(conStr);
     if (!connection) {
-      console.log('Errore collegamento al db.Connection string = ');
-      console.log(conStr);
+      logger.error('Errore collegamento al db.Connection string = ');
+      logger.error(conStr);
     }
     return connection;
   } catch (error) {
-    console.log('Errore nel openConnection al database');
-    console.log(error);
+    logger.error('Errore nel openConnection al database');
+    logger.error(error);
     return null;
   }
 }
