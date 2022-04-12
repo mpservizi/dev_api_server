@@ -1,9 +1,10 @@
 import express, { Express, Request, Response } from 'express';
 const { join } = require('path');
-const bodyParser = require('body-parser');
+import bodyParser from 'body-parser';
 const morgan = require('morgan');
-const helmet = require('helmet');
+import helmet from 'helmet';
 import { logger } from './logger';
+import { engine } from 'express-handlebars';
 // const favicon = require("serve-favicon");
 
 // const router = require("../apps/router");
@@ -12,6 +13,10 @@ import { logger } from './logger';
 function initServer() {
   const app = express();
   const PUBLIC_FOLDER = join(__dirname, '..', 'public');
+  const VIEWS_FOLDER = join(__dirname, '..', 'views');
+  const LAYOUTS_FOLDER = join(VIEWS_FOLDER, '_layouts');
+  const PARTIALS_FOLDER = join(VIEWS_FOLDER, '_partials');
+  const APPS_FOLDER = join(VIEWS_FOLDER, 'apps');
 
   app.use(
     helmet({
@@ -54,11 +59,24 @@ function initServer() {
     next();
   });
 
-  //Imposta il router per azioni su database
-  //bindLocalStorage(app, router);
+  //Sets our app to use the handlebars engine
+  app.engine(
+    'hbs',
+    engine({
+      defaultLayout: 'default',
+      extname: '.hbs',
+      layoutsDir: LAYOUTS_FOLDER,
+      partialsDir: PARTIALS_FOLDER,
+    })
+  );
+  //Imposto la cartella per views e view engine
+  app.set('views', VIEWS_FOLDER);
+  app.set('view engine', 'hbs');
 
   //La cartella assets è raggiungibile con path res nei scripts
   app.use('/', express.static(PUBLIC_FOLDER));
+  //La cartella views è raggiungibile con path apps nei scripts
+  app.use('/apps', express.static(APPS_FOLDER));
   //abbino i routes dei vari moduli
   // app.use(router);
 
