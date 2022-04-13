@@ -6,8 +6,8 @@ export class ServiceModulo extends MyService {
     super();
   }
 
-  async getAll() {
-    let result = await this.model.findAll();
+  async getAllNormeAnalizzate() {
+    let result = await this.model.findAllNormeWithAnalisi();
     return result;
   }
   async listaRequirementsNorma(idNorma: string) {

@@ -1,6 +1,11 @@
 import { MyModel } from '@models/MyModel';
 import { NormaModel } from '@apps/base_models/NormaModel';
-import { StudyNormaModel } from '@apps/base_models/StudyNormaModel';
+import {
+  StudyNormaModel,
+  TABELLA_DB as TabRequisiti,
+} from '@apps/base_models/StudyNormaModel';
+import { TABELLA_DB as TabNorme } from '@apps/base_models/NormaModel';
+
 //Campi uguali ai titoli del database
 export const TABELLA_DB = {
   tabella: 'nomi',
@@ -26,9 +31,14 @@ export class ProtoModel extends MyModel {
     this.setObjService(MODEL_OBJ);
     this.setObjTabella(TABELLA_DB);
   }
-  async findAll() {
-    let norme = await this.normaModel.getAllNorme();
-    return norme;
+
+  async findAllNormeWithAnalisi() {
+    let sql = `SELECT DISTINCT ${TabNorme.tabella}.* FROM ${TabNorme.tabella} INNER JOIN ${TabRequisiti.tabella} ON ${TabNorme.tabella}.[${TabNorme.id}] = ${TabRequisiti.tabella}.[${TabRequisiti.std_id}];`;
+    let dati = await this.dbm.load(sql);
+    if (dati.err) {
+      return dati;
+    }
+    return this.normaModel.convertListaToAppModel(dati);
   }
   /**
    * Lista dei requisiti presenti nel db per id della norma

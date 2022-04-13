@@ -3,7 +3,11 @@ import { Request, Response, NextFunction } from 'express';
 import { logger } from './../../logger';
 
 export interface ProtoController_I {
-  getListaRequisitiNorma(req: Request, res: Response, next: NextFunction): void;
+  getListaNormeConRequisiti(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ): void;
   getRequisitiPerNorma(req: Request, res: Response, next: NextFunction): void;
   newRequisito(req: Request, res: Response, next: NextFunction): void;
   updadateRequisito(req: Request, res: Response, next: NextFunction): void;
@@ -13,14 +17,14 @@ export interface ProtoController_I {
 export function initController(provider: ServiceModulo): ProtoController_I {
   let service = provider;
   return {
-    //
-    async getListaRequisitiNorma(
+    //Lista di tutte le norme che sono state analizzate
+    async getListaNormeConRequisiti(
       req: Request,
       res: Response,
       next: NextFunction
     ) {
       logger.debug(req.query.id);
-      let dati = await service.getAll();
+      let dati = await service.getAllNormeAnalizzate();
       res.send(dati);
     },
     //

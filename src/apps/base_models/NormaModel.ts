@@ -1,3 +1,4 @@
+import { DbRisposta_I } from '@src/models/interfacce/db_dto';
 import { MyModel } from '../../models/MyModel';
 //Campi uguali ai titoli del database
 export const TABELLA_DB = {
@@ -105,5 +106,9 @@ export class NormaModel extends MyModel {
    */
   async updateRequisito(payload: any) {
     return this.updateDb(TABELLA_DB.tabella, payload, MODEL_OBJ.id);
+  }
+
+  convertListaToAppModel(dati: DbRisposta_I) {
+    return this.convertiRispostaInAppModelList(dati);
   }
 }
